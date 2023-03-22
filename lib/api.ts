@@ -4,16 +4,11 @@ export interface Request {
   body?: any;
   json?: boolean;
 }
-export interface User {
-  name: string;
-  email: string;
-  password: string;
-}
 
-export interface UserResponse {
-  user: User;
-  token: string;
-}
+// export interface UserResponse {
+//   user: User;
+//   token: string;
+// }
 
 const fetcher = async ({ url, method, body, json = true }: Request) => {
   const res = await fetch(url, {
@@ -22,8 +17,10 @@ const fetcher = async ({ url, method, body, json = true }: Request) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
     },
   });
+  console.log('res!!!!', res);
 
   if (!res.ok) {
     throw new Error('API Error');
@@ -31,6 +28,7 @@ const fetcher = async ({ url, method, body, json = true }: Request) => {
 
   if (json) {
     const data = await res.json();
+    console.log('data!!!!', data);
     return data;
   }
 };
@@ -46,9 +44,9 @@ export const register = async (user) => {
 
 export const signin = async (user) => {
   return fetcher({
-    url: '/api/signin',
+    url: 'http://localhost:3003/api/signin',
     method: 'POST',
     body: user,
-    json: false,
+    json: true,
   });
 };
