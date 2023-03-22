@@ -4,8 +4,21 @@ import { comparePasswords, createJWT } from '@/lib/auth';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 
+export const response = () => {
+  return new Response(
+    JSON.stringify({
+      error: 'Invalid login',
+    }),
+    {
+      headers: {
+        'content-type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+  );
+};
+
 export async function POST(req, res) {
-  console.log('starting POST');
   if (req.method === 'POST') {
     const user = await db.user.findUnique({
       where: {
@@ -13,12 +26,14 @@ export async function POST(req, res) {
       },
     });
     if (!user) {
-      res.status(401);
-      res.json({ error: 'Invalid login' });
-      return;
+      return new Response(
+        JSON.stringify({
+          error: 'Invalid login',
+        })
+      );
     }
-    // const isUser = await comparePasswords(req.body.password, user.password);
-    const isUser = true;
+    const isUser = await comparePasswords(req.body.password, user.password);
+
     if (isUser) {
       const jwt = await createJWT(user);
       return new Response(
@@ -45,13 +60,7 @@ export async function POST(req, res) {
       return new Response(
         JSON.stringify({
           error: 'Invalid login',
-        }),
-        {
-          headers: {
-            'content-type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        }
+        })
       );
     }
   } else {
