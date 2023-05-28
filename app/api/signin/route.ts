@@ -19,6 +19,8 @@ export const response = () => {
 };
 
 export async function POST(req, res) {
+  const { body } = req;
+  console.log('req.body!!!!', JSON.parse(body));
   if (req.method === 'POST') {
     const user = await db.user.findUnique({
       where: {
@@ -29,7 +31,13 @@ export async function POST(req, res) {
       return new Response(
         JSON.stringify({
           error: 'Invalid login',
-        })
+        }),
+        {
+          headers: {
+            'content-type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
       );
     }
     const isUser = await comparePasswords(req.body.password, user.password);

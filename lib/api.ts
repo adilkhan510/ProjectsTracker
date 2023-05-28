@@ -13,14 +13,13 @@ export interface Request {
 const fetcher = async ({ url, method, body, json = true }: Request) => {
   const res = await fetch(url, {
     method,
-    body: body && JSON.stringify(body),
+    body: JSON.stringify(body),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
     },
   });
-  console.log('res!!!!', res);
 
   if (!res.ok) {
     throw new Error('API Error');
@@ -35,16 +34,16 @@ const fetcher = async ({ url, method, body, json = true }: Request) => {
 
 export const register = async (user) => {
   return fetcher({
-    url: '/api/register',
+    url: 'http://localhost:3000/api/register',
     method: 'POST',
     body: user,
-    json: false,
+    json: true,
   });
 };
 
 export const signin = async (user) => {
   return fetcher({
-    url: 'http://localhost:3003/api/signin',
+    url: 'http://localhost:3000/api/signin',
     method: 'POST',
     body: user,
     json: true,
