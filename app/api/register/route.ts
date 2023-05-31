@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { comparePasswords, createJWT } from '@/lib/auth';
+import { comparePasswords, createJWT, hashPassword } from '@/lib/auth';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 
@@ -24,7 +24,7 @@ export async function POST(req, res) {
     const res = await db.user.create({
       data: {
         email: body.email,
-        password: body.password,
+        password: await hashPassword(body.password),
       },
     });
 
@@ -39,6 +39,7 @@ export async function POST(req, res) {
     return new Response(
       JSON.stringify({
         message: 'User created',
+        status: 200,
       })
     );
   }

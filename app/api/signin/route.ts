@@ -19,12 +19,12 @@ export const response = () => {
 };
 
 export async function POST(req, res) {
-  const { body } = req;
-  console.log('req.body!!!!', JSON.parse(body));
+  const body = await req.json();
+  console.log(body.email);
   if (req.method === 'POST') {
     const user = await db.user.findUnique({
       where: {
-        email: 'user@email.com',
+        email: body.email,
       },
     });
     if (!user) {
@@ -40,7 +40,7 @@ export async function POST(req, res) {
         }
       );
     }
-    const isUser = await comparePasswords(req.body.password, user.password);
+    const isUser = await comparePasswords(body.password, user.password);
 
     if (isUser) {
       const jwt = await createJWT(user);

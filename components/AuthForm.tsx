@@ -36,13 +36,19 @@ export default function AuthForm({ mode }: { mode: 'register' | 'signin' }) {
 
       try {
         if (mode === 'register') {
-          await register(formState);
+          const res = await register(formState);
+          console.log(res);
+          if (res.status === 200) {
+            router.push('/signin');
+          }
         } else {
           const res = await signin(formState);
+          console.log(res);
         }
       } catch (e) {
         setError(`Could not ${mode}`);
       } finally {
+        router.push('/home');
         setFormState({ ...initial });
       }
     },
