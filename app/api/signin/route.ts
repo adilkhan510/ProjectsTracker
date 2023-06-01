@@ -20,7 +20,7 @@ export const response = () => {
 
 export async function POST(req, res) {
   const body = await req.json();
-  console.log(body.email);
+
   if (req.method === 'POST') {
     const user = await db.user.findUnique({
       where: {

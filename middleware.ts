@@ -31,14 +31,14 @@ export default async function middleware(req, res) {
     req.nextUrl.pathname = '/signin';
     return NextResponse.redirect(req.nextUrl);
   }
-
-  console.log('jwt is here', jwt.value);
-
+  if (req.nextUrl.pathname === '/') {
+    req.nextUrl.pathname = '/home';
+    return NextResponse.redirect(req.nextUrl);
+  }
   try {
     await verifyJWT(jwt.value);
     return NextResponse.next();
   } catch (e) {
-    console.error(e);
     req.nextUrl.pathname = '/signin';
     return NextResponse.redirect(req.nextUrl);
   }

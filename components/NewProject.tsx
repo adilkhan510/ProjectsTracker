@@ -13,9 +13,9 @@ const NewProject = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('submitting');
+
     const res = await createNewProject(name);
-    console.log(res);
+
     closeModal();
   };
 

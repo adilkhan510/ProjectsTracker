@@ -3,6 +3,7 @@ import GreetingsSkeleton from '@/components/GreetingsSkeleton';
 import NewProject from '@/components/NewProject';
 import ProjectCard from '@/components/ProjectCard';
 import TaskCard from '@/components/TaskCard';
+import TaskCardSkeleton from '@/components/TaskCardSkeleton';
 import { delay } from '@/lib/async';
 import { getUserFromCookie } from '@/lib/auth';
 import { db } from '@/lib/db';
@@ -13,7 +14,7 @@ import { Suspense } from 'react';
 const getData = async () => {
   await delay(2000);
   const user = await getUserFromCookie(cookies());
-  console.log(user);
+
   const projects = await db.project.findMany({
     where: {
       ownerId: user?.id,
@@ -53,7 +54,9 @@ export default async function Page() {
           <div className='w-full'>
             <div className='mt-6 flex-2 grow w-full flex'>
               <div className='w-full'>
-                <TaskCard title={undefined} tasks={undefined} />
+                <Suspense fallback={<TaskCardSkeleton />}>
+                  <TaskCard title={undefined} tasks={undefined} />
+                </Suspense>
               </div>
             </div>
           </div>

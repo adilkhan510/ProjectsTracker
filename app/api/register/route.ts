@@ -25,6 +25,8 @@ export async function POST(req, res) {
       data: {
         email: body.email,
         password: await hashPassword(body.password),
+        firstName: body.firstName,
+        lastName: body.lastName,
       },
     });
 

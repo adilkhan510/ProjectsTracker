@@ -11,10 +11,6 @@ export interface Request {
 // }
 
 const fetcher = async ({ url, method, body, json = true }: Request) => {
-  if (url === 'http://localhost:3000/api/project') {
-    console.log('create project, hitting fetcher');
-    console.log('body in fetcher', body);
-  }
   const res = await fetch(url, {
     method,
     body: JSON.stringify(body),
@@ -24,7 +20,7 @@ const fetcher = async ({ url, method, body, json = true }: Request) => {
       'Access-Control-Allow-Origin': '*',
     },
   });
-  console.log(res);
+
   if (!res.ok) {
     throw new Error('API Error');
   }
