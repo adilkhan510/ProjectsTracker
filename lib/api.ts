@@ -58,3 +58,11 @@ export const createNewProject = (name) => {
     body: { name },
   });
 };
+
+export const createNewTask = (name) => {
+  return fetcher({
+    url: 'http://localhost:3000/api/task',
+    method: 'POST',
+    body: { name },
+  });
+};

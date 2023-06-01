@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 const PUBLIC_FILE = /\.(.*)$/;
 
+export type JWT = string;
 // had to make this again here as the other one is in a file with bcrypt which is not supported on edge runtimes
-const verifyJWT = async (jwt) => {
+const verifyJWT = async (jwt: JWT) => {
   const { payload } = await jwtVerify(
     jwt,
     new TextEncoder().encode(process.env.JWT_SECRET)
