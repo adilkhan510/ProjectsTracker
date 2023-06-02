@@ -3,12 +3,16 @@
 import { useState } from 'react';
 import Button from './Button';
 import { createNewTask } from '@/lib/api';
+import clsx from 'clsx';
 
-const NewTask = () => {
+const NewTask = ({ shouldAddMarginTop }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const [task, setTask] = useState('');
+  const modalClass = shouldAddMarginTop
+    ? 'fixed inset-0 flex items-center justify-center z-50 mt-[400px]'
+    : 'fixed inset-0 flex items-center justify-center z-50';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +32,7 @@ const NewTask = () => {
       </Button>
 
       {isModalOpen && (
-        <div className='fixed inset-0 flex items-center justify-center z-50'>
+        <div className={modalClass}>
           <div className='bg-white rounded-lg shadow-lg p-6 w-6/12'>
             <h2 className='text-xl font-semibold mb-4'>Create New Task</h2>
             <form onSubmit={handleSubmit}>

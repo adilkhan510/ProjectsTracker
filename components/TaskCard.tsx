@@ -25,12 +25,12 @@ const getData = async () => {
   return tasks;
 };
 
-const TaskCard = async ({ title, tasks }) => {
+const TaskCard = async ({ title, tasks, shouldAddMarginTop }) => {
   const data = tasks || (await getData());
 
   return (
     <Card className='flex justify-between items-center'>
-      <div>
+      <div className='w-1/3'>
         {data && data.length ? (
           <div>
             {data.map((task, key) => (
@@ -47,15 +47,15 @@ const TaskCard = async ({ title, tasks }) => {
             ))}
           </div>
         ) : (
-          <div>No Tasks</div>
+          <div className='w-1/3'>No Tasks</div>
         )}
       </div>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center w-1/3'>
         <div>
           <span className='text-3xl text-gray-600'>{title}</span>
         </div>
         <div>
-          <NewTask />
+          <NewTask shouldAddMarginTop={shouldAddMarginTop} />
         </div>
       </div>
     </Card>
